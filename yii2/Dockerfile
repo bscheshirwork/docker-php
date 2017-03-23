@@ -1,5 +1,5 @@
 FROM php:fpm
-# -t bscheshir/php:fpm-4yii2 .
+# -t bscheshir/php:fpm-4yii2-xdebug .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
 # libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev - for gd
@@ -30,7 +30,7 @@ RUN apt-get update && \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
 
 RUN apt-get update && \
-    buildDependencies=" \
+    mainDependencies=" \
         git \
         zip \
         zlib1g-dev \
@@ -42,19 +42,28 @@ RUN apt-get update && \
         libpq-dev \
         libmagickwand-dev \
     " && \
-    apt-get install -y $buildDependencies --no-install-recommends && \
-    rm -r /var/lib/apt/lists/* && \
-    \
+    apt-get install -y $mainDependencies \
+    --no-install-recommends && \
     docker-php-ext-configure intl && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
     docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql intl gd zip && \
+# imagick
     pecl install imagick && \
     docker-php-ext-enable imagick && \
+# apcu
+    docker-php-source extract && \
+    pecl install apcu && \
+    docker-php-ext-enable apcu && \
+    docker-php-source delete && \
     rm -r /tmp/pear/* && \
-    \
     echo "expose_php = off\n\
-cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini 
+cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer global require --optimize-autoloader "fxp/composer-asset-plugin:^1.2.0"
+ENV VERSION_COMPOSER_ASSET_PLUGIN=^1.3.0 \
+    VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
+    COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer global require --optimize-autoloader \
+        "fxp/composer-asset-plugin:${VERSION_COMPOSER_ASSET_PLUGIN}" \
+        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
+    && composer global dumpautoload --optimize

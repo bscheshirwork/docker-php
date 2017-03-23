@@ -30,7 +30,7 @@ RUN apt-get update && \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
 
 RUN apt-get update && \
-    buildDependencies=" \
+    mainDependencies=" \
         git \
         zip \
         zlib1g-dev \
@@ -42,38 +42,36 @@ RUN apt-get update && \
         libpq-dev \
         libmagickwand-dev \
     " && \
-    apt-get install -y $buildDependencies --no-install-recommends && \
-    rm -r /var/lib/apt/lists/* && \
-    \
+    apt-get install -y $mainDependencies \
+    --no-install-recommends && \
     docker-php-ext-configure intl && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
     docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql intl gd zip && \
+# imagick
     pecl install imagick && \
     docker-php-ext-enable imagick && \
+# apcu
+    docker-php-source extract && \
+    pecl install apcu && \
+    docker-php-ext-enable apcu && \
+    docker-php-source delete && \
     rm -r /tmp/pear/* && \
-    \
     echo "expose_php = off\n\
-cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini 
+cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer global require --optimize-autoloader "fxp/composer-asset-plugin:^1.2.0"
+ENV VERSION_COMPOSER_ASSET_PLUGIN=^1.3.0 \
+    VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
+    COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer global require --optimize-autoloader \
+        "fxp/composer-asset-plugin:${VERSION_COMPOSER_ASSET_PLUGIN}" \
+        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
+    && composer global dumpautoload --optimize
 
 ENV XDEBUG_VERSION 2.5.1
-
-RUN curl -fsSL "http://xdebug.org/files/xdebug-$XDEBUG_VERSION.tgz" -o xdebug-$XDEBUG_VERSION.tar.gz && \
-    mkdir -p xdebug-$XDEBUG_VERSION && \
-    tar -xf xdebug-$XDEBUG_VERSION.tar.gz -C xdebug-$XDEBUG_VERSION --strip-components=1 && \
-    rm xdebug-$XDEBUG_VERSION.tar.gz && \
-    ( \
-        cd xdebug-$XDEBUG_VERSION \
-        && phpize \
-        && ./configure --enable-xdebug \
-        && make -j$(nproc) \
-        && make install \
-    ) && \
-    rm -r xdebug-$XDEBUG_VERSION && \
+RUN pecl install xdebug-$XDEBUG_VERSION && \
     docker-php-ext-enable xdebug && \
-    echo "xdebug.remote_port = 9001\n\
+    rm -r /tmp/pear/* && \
+    echo -e "xdebug.remote_port = 9001\n\
 xdebug.idekey = \"PHPSTORM\"\n\
 xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

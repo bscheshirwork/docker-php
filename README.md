@@ -1,46 +1,57 @@
 # php
 
-Based at [official images](https://hub.docker.com/_/php/) 
+Based at :whale:[official images](https://hub.docker.com/_/php/) 
 and expand it.
 
-# for yii2 [Dockerfile](./yii2/Dockerfile)
+Supported tags and respective `Dockerfile` links
+================================================
+
+
+## for yii2 
+
+- `7.1.3-fpm-4yii2`, `fpm-4yii2` ([Dockerfile](./yii2/Dockerfile))
+- `7.1.3-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.1.3-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([Dockerfile](./yii2-alpine/Dockerfile))
+- `7.1.3-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+
 FROM `php:fpm`
 
-added composer
+added `composer` (global require `fxp/composer-asset-plugin:^1.3.0`, `hirak/prestissimo:^0.3.0`)
 
-added yii2 dependences
+added `yii2 dependences` (all pass requirements.php, :information_source: ApcCache: Alternatively `APCu PHP` extension could be used via setting `useApcu` to `true` )
 
 tag: `{sourceref}-4yii2`
 
-# for yii2 debug [Dockerfile](./yii2-xdebug/Dockerfile)
-added xdebug
+added `xdebug`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-## tags (example pull links)
-
 `docker pull bscheshir/php:7.1.0-fpm-4yii2-xdebug`
 
-# for zts [Dockerfile](./yii2xdebug/zts)
+## for zts 
+
+- `7.1.3-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.1.3-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+
+
 FROM `php:zts`
 
-added pthreads
+added `pthreads`
 
 tag: `{sourceref}-zts`
 
-## for zts debug [Dockerfile](./yii2xdebug/zts-xdebug)
 added xdebug
 
 tag: `{sourceref}-zts-xdebug`
 
 
-# Usage
-## Example for yii2 [docker-compose.yml](https://github.com/bscheshirwork/docker-yii2-app-advanced/blob/master/docker-run/docker-compose.yml)
+## Usage
+### Example for yii2 [docker-compose.yml](https://github.com/bscheshirwork/docker-yii2-app-advanced/blob/master/docker-run/docker-compose.yml)
 ```
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.1-fpm-4yii2-xdebug
+    image: bscheshir/php:7.1.3-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -51,7 +62,7 @@ services:
       XDEBUG_CONFIG: "remote_host=192.168.0.83 remote_port=9001 var_display_max_data=1024 var_display_max_depth=5"
       PHP_IDE_CONFIG: "serverName=yii2advanced"
   nginx:
-    image: nginx:1.11.9-alpine
+    image: nginx:1.11.10-alpine
     restart: always
     ports:
       - "8080:80"
@@ -98,7 +109,7 @@ services:
       - mysql
 ```
 
-## Example run command
+### Example run command
 
 phpinfo | xdebug
 
@@ -116,7 +127,7 @@ crontab (full path needed)
 */10 * * * * /usr/local/bin/docker-compose -f /home/user/projects/yii2project/docker-compose.yml run --rm php ./yii command/action
 ```
 
-## Example zts [docker-compose.yml](https://github.com/bscheshirwork/multispider/blob/master/zts/docker-compose.yml)
+### Example zts [docker-compose.yml](https://github.com/bscheshirwork/multispider/blob/master/zts/docker-compose.yml)
 ```
 version: '2'
 services:
