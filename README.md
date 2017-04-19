@@ -26,7 +26,7 @@ added `xdebug`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.1.0-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.1.4-fpm-4yii2-xdebug`
 
 ## for zts 
 
