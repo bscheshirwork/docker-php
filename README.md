@@ -9,10 +9,10 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
-- `7.1.4-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.1.4-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
-- `7.1.4-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.1.4-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.1.5-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.1.5-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.1.5-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.1.5-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -26,12 +26,12 @@ added `xdebug`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.1.4-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.1.5-fpm-4yii2-xdebug`
 
 ## for zts 
 
-- `7.1.4-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.1.4-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+- `7.1.5-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.1.5-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
 
 
 FROM `php:zts`
@@ -51,7 +51,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.4-fpm-4yii2-xdebug
+    image: bscheshir/php:7.1.5-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
