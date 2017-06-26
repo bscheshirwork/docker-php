@@ -70,6 +70,7 @@ RUN apk --update add \
     apk del .phpize-deps && \
     rm -r /tmp/pear/* && \
     echo -e "expose_php = off\n\
+apc.enable_cli = 1\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
 # Configure version constraints

@@ -57,6 +57,7 @@ RUN apt-get update && \
     docker-php-source delete && \
     rm -r /tmp/pear/* && \
     echo "expose_php = off\n\
+apc.enable_cli = 1\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
 ENV VERSION_COMPOSER_ASSET_PLUGIN=^1.3.0 \
