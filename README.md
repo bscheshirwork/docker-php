@@ -16,7 +16,7 @@ Supported tags and respective `Dockerfile` links
 
 FROM `php:fpm`
 
-added `composer` (global require `fxp/composer-asset-plugin:^1.3.0`, `hirak/prestissimo:^0.3.0`)
+added `composer` (global require `hirak/prestissimo:^0.3.0`)
 
 added `yii2 dependences` (all pass requirements.php, :information_source: ApcCache: Alternatively `APCu PHP` extension could be used via setting `useApcu` to `true` )
 

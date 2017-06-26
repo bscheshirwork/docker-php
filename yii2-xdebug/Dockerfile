@@ -65,7 +65,6 @@ ENV VERSION_COMPOSER_ASSET_PLUGIN=^1.3.0 \
     COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer global require --optimize-autoloader \
-        "fxp/composer-asset-plugin:${VERSION_COMPOSER_ASSET_PLUGIN}" \
         "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
     && composer global dumpautoload --optimize
 
