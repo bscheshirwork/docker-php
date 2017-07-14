@@ -12,7 +12,6 @@ RUN apk --update add \
         freetype-dev \
         icu \
         icu-dev \
-        libmcrypt-dev \
         libxml2-dev \
         libintl \
         libjpeg-turbo-dev \
@@ -28,7 +27,6 @@ RUN apk --update add \
     docker-php-ext-configure bcmath && \
     docker-php-ext-install \
         soap \
-        mcrypt \
         zip \
         curl \
         bcmath \
