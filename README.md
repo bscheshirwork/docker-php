@@ -9,6 +9,9 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
+- `7.2.0alpha3-fpm-alpine-4yii2`, `rc-fpm-alpine-4yii2` ([yii2-rc-alpine/Dockerfile](./yii2-rc-alpine/Dockerfile))
+- `7.2.0alpha3-fpm-alpine-4yii2-xdebug`, `rc-fpm-alpine-4yii2-xdebug` ([yii2-rc-alpine-xdebug/Dockerfile](./yii2-rc-alpine-xdebug/Dockerfile))
+
 - `7.1.7-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
 - `7.1.7-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
 - `7.1.7-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))

@@ -60,8 +60,7 @@ RUN apt-get update && \
 apc.enable_cli = 1\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-ENV VERSION_COMPOSER_ASSET_PLUGIN=^1.3.0 \
-    VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
+ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
     COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer global require --optimize-autoloader \

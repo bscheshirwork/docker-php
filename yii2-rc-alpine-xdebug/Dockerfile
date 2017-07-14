@@ -1,4 +1,4 @@
-FROM php:fpm-alpine
+FROM php:rc-fpm-alpine
 # -t bscheshir/php:fpm-alpine-4yii2-xdebug .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
@@ -81,3 +81,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     composer global require --optimize-autoloader \
         "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" && \
     composer global dumpautoload --optimize
+
+# xdebug
+ENV XDEBUG_VERSION 2.5.1
+RUN apk --no-cache add --virtual .build-deps \
+        g++ \
+        autoconf \
+        make && \
+    pecl install xdebug-$XDEBUG_VERSION && \
+    docker-php-ext-enable xdebug && \
+    apk del .build-deps && \
+    rm -r /tmp/pear/* && \
+    echo -e "xdebug.remote_port = 9001\n\
+xdebug.idekey = \"PHPSTORM\"\n\
+xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini

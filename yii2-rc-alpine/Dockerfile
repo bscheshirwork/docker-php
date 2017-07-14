@@ -1,4 +1,4 @@
-FROM php:fpm-alpine
+FROM php:rc-fpm-alpine
 # -t bscheshir/php:fpm-alpine-4yii2-xdebug .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
