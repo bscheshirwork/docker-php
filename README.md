@@ -25,7 +25,7 @@ added `yii2 dependences` (all pass requirements.php, :information_source: ApcCac
 
 tag: `{sourceref}-4yii2`
 
-added `xdebug`
+added `xdebug` 2.5.5
 
 tag: `{sourceref}-4yii2-xdebug`
 
@@ -43,7 +43,7 @@ added `pthreads`
 
 tag: `{sourceref}-zts`
 
-added xdebug
+added `xdebug` 2.5.5
 
 tag: `{sourceref}-zts-xdebug`
 
@@ -135,7 +135,7 @@ crontab (full path needed)
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.0.12-zts
+    image: bscheshir/php:7.1.7-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
