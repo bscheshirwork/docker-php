@@ -22,7 +22,7 @@ added `yii2 dependences` (all pass requirements.php, :information_source: ApcCac
 
 tag: `{sourceref}-4yii2`
 
-added `xdebug`
+added `xdebug 2.5.5`
 
 tag: `{sourceref}-4yii2-xdebug`
 
@@ -62,7 +62,7 @@ services:
       XDEBUG_CONFIG: "remote_host=192.168.0.83 remote_port=9001 var_display_max_data=1024 var_display_max_depth=5"
       PHP_IDE_CONFIG: "serverName=yii2advanced"
   nginx:
-    image: nginx:1.11.10-alpine
+    image: nginx:1.13.3-alpine
     restart: always
     ports:
       - "8080:80"
@@ -75,7 +75,7 @@ services:
       - ../nginx-conf:/etc/nginx/conf.d #nginx-conf
       - ../nginx-logs:/var/log/nginx #nginx-logs
   mysql:
-    image: mysql:8.0.0
+    image: mysql:8.0.1
     restart: always
     expose:
       - "3306" #for service mysql-proxy
@@ -132,7 +132,7 @@ crontab (full path needed)
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.0.12-zts
+    image: bscheshir/php:7.1.7-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
@@ -142,7 +142,7 @@ services:
       - ..:/multispider #php-code
       - ~:/home/user
   db:
-    image: postgres:9.6.0
+    image: postgres:9.6.3-alpine
     restart: always
     volumes:
       - ../.db:/var/lib/postgresql/data #DB-data

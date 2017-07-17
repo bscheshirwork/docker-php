@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable pthreads \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ENV XDEBUG_VERSION 2.5.1
+ENV XDEBUG_VERSION 2.5.5
 
 RUN curl -fsSL "http://xdebug.org/files/xdebug-$XDEBUG_VERSION.tgz" -o xdebug-$XDEBUG_VERSION.tar.gz \
     && mkdir -p xdebug-$XDEBUG_VERSION \
