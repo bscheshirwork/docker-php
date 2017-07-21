@@ -75,7 +75,7 @@ services:
       - ../nginx-conf:/etc/nginx/conf.d #nginx-conf
       - ../nginx-logs:/var/log/nginx #nginx-logs
   mysql:
-    image: mysql:8.0.1
+    image: mysql:8.0.2
     restart: always
     expose:
       - "3306" #for service mysql-proxy
