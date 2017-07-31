@@ -30,8 +30,10 @@ tag: `{sourceref}-4yii2-xdebug`
 
 ## for zts 
 
-- `7.1.7-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.1.7-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+> Warning! pthreads don't work now. Wait for 7.2
+> /pthreads/php_pthreads.c:38:3: error: #error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken" # error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken"
+- `7.2-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.2-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
 
 
 FROM `php:zts`
