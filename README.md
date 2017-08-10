@@ -9,10 +9,12 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
-- `7.1.7-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.1.7-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
-- `7.1.7-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.1.7-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.1.8-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.1.8-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.1.8-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.1.8-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.1.8-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `7.1.8-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -26,11 +28,11 @@ added `xdebug 2.5.5`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.1.7-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.1.8-fpm-4yii2-xdebug`
 
 ## for zts 
 
-> Warning! pthreads don't work now. Wait for 7.2
+> Warning! pthreads don't work now. Wait for 7.2  
 > /pthreads/php_pthreads.c:38:3: error: #error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken" # error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken"
 - `7.2-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
 - `7.2-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
@@ -53,7 +55,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.7-fpm-4yii2-xdebug
+    image: bscheshir/php:7.1.8-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -99,14 +101,15 @@ services:
       - "3308:3306" #for external connection
     restart: always
     volumes:
-      - ../mysql-proxy/log.lua:/opt/log.lua
-      - ../mysql-proxy/mysql.log:/opt/mysql-proxy/mysql.log
+      - ../mysql-proxy-conf:/opt/mysql-proxy/conf
+      - ../mysql-proxy-logs:/opt/mysql-proxy/logs
     environment:
       PROXY_DB_HOST:
       PROXY_DB_PORT: 3306
       REMOTE_DB_HOST: mysql
       REMOTE_DB_PORT: 3306
-      PROXY_LUA_SCRIPT: "/opt/log.lua"
+      LUA_SCRIPT: "/opt/mysql-proxy/conf/log.lua"
+      LOG_FILE: "/opt/mysql-proxy/logs/mysql.log"
     depends_on:
       - mysql
 ```
@@ -129,12 +132,33 @@ crontab (full path needed)
 */10 * * * * /usr/local/bin/docker-compose -f /home/user/projects/yii2project/docker-compose.yml run --rm php ./yii command/action
 ```
 
+
+### Example `supervisor` [docker-compose.yml](https://github.com/bscheshirwork/docker-yii2-app-advanced-redis/blob/master/docker-run/docker-compose.yml)
+```
+version: '2'
+services:
+  php-supervisor: # for workers
+    image: bscheshir/php:7.1.8-fpm-alpine-4yii2-supervisor-xdebug
+    restart: always
+    volumes:
+      - ../php-code:/var/www/html #php-code
+      - ../supervisor-conf:/etc/supervisor/conf.d
+      - ../supervisor-logs:/var/log/supervisor
+    depends_on:
+      - db
+    environment:
+      TZ: Europe/Moscow
+      XDEBUG_CONFIG: "remote_host=192.168.0.83 remote_port=9003 var_display_max_data=1024 var_display_max_depth=5"
+      PHP_IDE_CONFIG: "serverName=yii2advanced"
+```
+
+
 ### Example zts [docker-compose.yml](https://github.com/bscheshirwork/multispider/blob/master/zts/docker-compose.yml)
 ```
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.7-zts
+    image: bscheshir/php:7.1.8-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
