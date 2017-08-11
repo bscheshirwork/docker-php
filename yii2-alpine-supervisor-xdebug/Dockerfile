@@ -100,7 +100,7 @@ serverurl = unix:///tmp/supervisor.sock\n\
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface\n\
 \n\
 [include]\n\
-files = /etc/supervisord.d/*.conf" >> /etc/supervisord.conf
+files = /etc/supervisor/conf.d/*.conf" >> /etc/supervisord.conf
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
 
