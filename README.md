@@ -9,12 +9,12 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
-- `7.1.8-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.1.8-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
-- `7.1.8-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.1.8-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
-- `7.1.8-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
-- `7.1.8-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
+- `7.1.9-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.1.9-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.1.9-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.1.9-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.1.9-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `7.1.9-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -28,7 +28,7 @@ added `xdebug 2.5.5`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.1.8-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.1.9-fpm-4yii2-xdebug`
 
 ## for zts 
 
@@ -55,7 +55,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.8-fpm-4yii2-xdebug
+    image: bscheshir/php:7.1.9-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -138,7 +138,7 @@ crontab (full path needed)
 version: '2'
 services:
   php-supervisor: # for workers
-    image: bscheshir/php:7.1.8-fpm-alpine-4yii2-supervisor-xdebug
+    image: bscheshir/php:7.1.9-fpm-alpine-4yii2-supervisor-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -158,7 +158,7 @@ services:
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.8-zts
+    image: bscheshir/php:7.1.9-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
