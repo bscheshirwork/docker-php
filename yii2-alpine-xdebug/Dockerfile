@@ -39,6 +39,7 @@ RUN apk --update add \
         mbstring \
         opcache \
         pdo_mysql \
+        pgsql \
         pdo_pgsql && \
     apk del \
         icu-dev \
