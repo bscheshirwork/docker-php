@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
         libpq-dev \
         --no-install-recommends \
   && rm -r /var/lib/apt/lists/* \
-  && docker-php-ext-install -j$(nproc) pdo_pgsql \
+  && docker-php-ext-install -j$(nproc) pgsql pdo_pgsql \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && git clone https://github.com/krakjoe/pthreads.git \
     && ( \
