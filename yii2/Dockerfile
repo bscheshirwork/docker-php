@@ -1,5 +1,5 @@
 FROM php:fpm
-# -t bscheshir/php:fpm-4yii2-xdebug .
+# docker build -t bscheshir/php:fpm-4yii2 .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
 # libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev - for gd
@@ -46,7 +46,8 @@ RUN apt-get update && \
     --no-install-recommends && \
     docker-php-ext-configure intl && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
-    docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql intl gd zip && \
+    docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql && \
+    docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql pgsql intl gd zip && \
 # imagick
     pecl install imagick && \
     docker-php-ext-enable imagick && \
