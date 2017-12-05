@@ -1,5 +1,5 @@
 FROM php:zts
-# docker build -t bscheshir/php:zts .
+# docker build -t bscheshir/php:zts --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
 RUN apt-get update && apt-get install -y \

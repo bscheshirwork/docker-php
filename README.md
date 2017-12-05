@@ -9,12 +9,12 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
-- `7.1.12-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.1.12-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
-- `7.1.12-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.1.12-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
-- `7.1.12-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
-- `7.1.12-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
+- `7.2.0-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.2.0-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.2.0-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.2.0-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.2.0-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `7.2.0-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -24,18 +24,16 @@ added `yii2 dependences` (all pass requirements.php, :information_source: ApcCac
 
 tag: `{sourceref}-4yii2`
 
-added `xdebug 2.5.5`
+added `xdebug 2.6.0alpha1`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.1.12-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.2.0-fpm-4yii2-xdebug`
 
 ## for zts 
 
-> Warning! pthreads don't work now. Wait for 7.2  
-> /pthreads/php_pthreads.c:38:3: error: #error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken" # error "pthreads requires PHP 7.2, ZTS in versions 7.0 and 7.1 is broken"
-- `7.2-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.2-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+- `7.2.0-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.2.0-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
 
 
 FROM `php:zts`
@@ -55,7 +53,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.12-fpm-4yii2-xdebug
+    image: bscheshir/php:7.2.0-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -138,7 +136,7 @@ crontab (full path needed)
 version: '2'
 services:
   php-supervisor: # for workers
-    image: bscheshir/php:7.1.12-fpm-alpine-4yii2-supervisor-xdebug
+    image: bscheshir/php:7.2.0-fpm-alpine-4yii2-supervisor-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -158,7 +156,7 @@ services:
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.1.12-zts
+    image: bscheshir/php:7.2.0-zts
     restart: always
     hostname: phphost
     working_dir: /multispider

@@ -1,5 +1,5 @@
 FROM php:fpm-alpine
-# docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor .
+# docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
 # Install system packages & PHP extensions required for Yii 2.0 Framework
@@ -12,7 +12,6 @@ RUN apk --update add \
         freetype-dev \
         icu \
         icu-dev \
-        libmcrypt-dev \
         libxml2-dev \
         libintl \
         libjpeg-turbo-dev \
@@ -29,7 +28,6 @@ RUN apk --update add \
     docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install \
         soap \
-        mcrypt \
         zip \
         curl \
         bcmath \

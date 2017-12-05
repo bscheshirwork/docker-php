@@ -1,12 +1,12 @@
 FROM php:fpm
-# docker build -t bscheshir/php:fpm-4yii2 .
+# docker build -t bscheshir/php:fpm-4yii2 --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
-# libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev - for gd
+# libfreetype6-dev libjpeg-dev libmcrypt-dev libpng-dev - for gd
 # zlib1g-dev libicu-dev - for intl
 # libpq-dev - for pdo_pgsql
 # libmagickwand-dev - for imagick
-# libz-dev libmemcached-dev - for memcached
+# zlib1g-dev libmemcached-dev - for memcached
 
 RUN apt-get update && \
     buildDependencies=" \
@@ -35,9 +35,9 @@ RUN apt-get update && \
         zip \
         zlib1g-dev \
         libfreetype6-dev \
-        libjpeg62-turbo-dev \
+        libjpeg-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         libicu-dev \
         libpq-dev \
         libmagickwand-dev \

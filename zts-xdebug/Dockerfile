@@ -1,5 +1,5 @@
 FROM php:zts
-# docker build -t bscheshir/php:zts-xdebug .
+# docker build -t bscheshir/php:zts-xdebug --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
 RUN apt-get update && apt-get install -y \
@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y \
     docker-php-ext-enable pthreads && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ENV XDEBUG_VERSION 2.5.5
+ENV XDEBUG_VERSION 2.6.0alpha1
 RUN pecl install xdebug-$XDEBUG_VERSION && \
     docker-php-ext-enable xdebug && \
     rm -r /tmp/pear/* && \
