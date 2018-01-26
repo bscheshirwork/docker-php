@@ -25,7 +25,7 @@ added `yii2 dependences` (all pass requirements.php, :information_source: ApcCac
 
 tag: `{sourceref}-4yii2`
 
-added `xdebug 2.6.0alpha1`
+added `xdebug 2.6.0RC2`
 
 tag: `{sourceref}-4yii2-xdebug`
 
