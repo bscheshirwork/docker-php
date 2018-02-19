@@ -9,13 +9,13 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2 
 
-- `7.2.1-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.2.1-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.2.2-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.2.2-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
 >note: based on `fpm-alpine3.7`
-- `7.2.1-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.2.1-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
-- `7.2.1-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
-- `7.2.1-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
+- `7.2.2-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.2.2-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.2.2-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `7.2.2-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -29,12 +29,12 @@ added `xdebug 2.6.0`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.2.1-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.2.2-fpm-4yii2-xdebug`
 
 ## for zts 
 
-- `7.2.1-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.2.1-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+- `7.2.2-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.2.2-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
 
 
 FROM `php:zts`
@@ -54,7 +54,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.2.1-fpm-4yii2-xdebug
+    image: bscheshir/php:7.2.2-fpm-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -78,7 +78,7 @@ services:
       - ../nginx-conf:/etc/nginx/conf.d #nginx-conf
       - ../nginx-logs:/var/log/nginx #nginx-logs
   mysql:
-    image: mysql:8.0.3
+    image: mysql:8.0.4
     restart: always
     expose:
       - "3306" #for service mysql-proxy
@@ -137,7 +137,7 @@ crontab (full path needed)
 version: '2'
 services:
   php-supervisor: # for workers
-    image: bscheshir/php:7.2.1-fpm-alpine-4yii2-supervisor-xdebug
+    image: bscheshir/php:7.2.2-fpm-alpine-4yii2-supervisor-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -157,7 +157,7 @@ services:
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.2.1-zts
+    image: bscheshir/php:7.2.2-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
@@ -167,7 +167,7 @@ services:
       - ..:/multispider #php-code
       - ~:/home/user
   db:
-    image: postgres:10.1-alpine
+    image: postgres:10.2-alpine
     restart: always
     volumes:
       - ../.db:/var/lib/postgresql/data #DB-data
