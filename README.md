@@ -179,16 +179,32 @@ services:
 
 ## How to build manually 
 
-Clone or fetch
+### Clone or get fresh
 ```sh
 git clone https://github.com/bscheshirwork/docker-php.git
 cd docker-php
 git pull
 ```
 
-Build and push. For example `bscheshir/php:fpm-alpine-4yii2-xdebug` - this image will be used in [docker-codeception-yii2](https://github.com/bscheshirwork/docker-codeception-yii2)
-```
+### Build and push. 
+
+For example `bscheshir/php:fpm-alpine-4yii2-xdebug` - this image will be used in [docker-codeception-yii2](https://github.com/bscheshirwork/docker-codeception-yii2)
+```sh
 docker build -t bscheshir/php:7.2.4-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
 docker push bscheshir/php:7.2.4-fpm-alpine-4yii2-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-xdebug
+```
+Another `alpine` images
+```sh
+docker build -t bscheshir/php:7.2.4-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpine-4yii2 --pull -- ./yii2-alpine
+docker push bscheshir/php:7.2.4-fpm-alpine-4yii2
+docker push bscheshir/php:fpm-alpine-4yii2
+
+docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
+docker push bscheshir/php:7.2.4-fpm-alpine-4yii2-supervisor-xdebug
+docker push bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug
+
+docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
+docker push bscheshir/php:7.2.4-fpm-alpine-4yii2-supervisor
+docker push bscheshir/php:fpm-alpine-4yii2-supervisor
 ```
