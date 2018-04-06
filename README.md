@@ -176,3 +176,19 @@ services:
       POSTGRES_DB: multispider
       POSTGRES_USER: multispider
 ```
+
+## How to build manually 
+
+Clone or fetch
+```sh
+git clone https://github.com/bscheshirwork/docker-php.git
+cd docker-php
+git pull
+```
+
+Build and push. For example `bscheshir/php:fpm-alpine-4yii2-xdebug` - this image will be used in [docker-codeception-yii2](https://github.com/bscheshirwork/docker-codeception-yii2)
+```
+docker build -t bscheshir/php:7.2.4-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
+docker push bscheshir/php:7.2.4-fpm-alpine-4yii2-xdebug
+docker push bscheshir/php:fpm-alpine-4yii2-xdebug
+```
