@@ -65,7 +65,7 @@ services:
       XDEBUG_CONFIG: "remote_host=dev-Aspire-V3-772 remote_port=9001 var_display_max_data=1024 var_display_max_depth=5"
       PHP_IDE_CONFIG: "serverName=yii2advanced"
   nginx:
-    image: nginx:1.13.12-alpine
+    image: nginx:1.14.0-alpine
     restart: always
     ports:
       - "8080:8080"
@@ -167,7 +167,7 @@ services:
       - ..:/multispider #php-code
       - ~:/home/user
   db:
-    image: postgres:10.3-alpine
+    image: postgres:10.4-alpine
     restart: always
     volumes:
       - ../.db:/var/lib/postgresql/data #DB-data
