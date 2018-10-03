@@ -200,11 +200,11 @@ docker build -t bscheshir/php:7.2.10-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpin
 docker push bscheshir/php:7.2.10-fpm-alpine-4yii2
 docker push bscheshir/php:fpm-alpine-4yii2
 
-docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
+docker build -t bscheshir/php:7.2.10-fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
 docker push bscheshir/php:7.2.10-fpm-alpine-4yii2-supervisor-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug
 
-docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
+docker build -t bscheshir/php:7.2.10-fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
 docker push bscheshir/php:7.2.10-fpm-alpine-4yii2-supervisor
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor
 ```
