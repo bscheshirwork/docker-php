@@ -50,22 +50,23 @@ tag: `{sourceref}-zts-xdebug`
 
 ## Usage
 ### Example for yii2 [docker-compose.yml](https://github.com/bscheshirwork/docker-yii2-app-advanced/blob/master/docker-run/docker-compose.yml)
-```
+```yml
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.2.12-fpm-4yii2-xdebug
+    image: bscheshir/php:7.2.12-fpm-alpine-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
+      - ~/.composer/cache:/root/.composer/cache
     depends_on:
       - db
     environment:
       TZ: Europe/Moscow
-      XDEBUG_CONFIG: "remote_host=dev-Aspire-V3-772 remote_port=9001 var_display_max_data=1024 var_display_max_depth=5"
-      PHP_IDE_CONFIG: "serverName=yii2advanced"
+      XDEBUG_CONFIG: "remote_host=${DEV_REMOTE_HOST} remote_port=${DEV_REMOTE_PORT} var_display_max_data=1024 var_display_max_depth=5"
+      PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
   nginx:
-    image: nginx:1.15.5-alpine
+    image: nginx:1.15.6-alpine
     restart: always
     ports:
       - "8080:8080"
@@ -77,8 +78,11 @@ services:
     volumes:
       - ../nginx-conf:/etc/nginx/conf.d #nginx-conf
       - ../nginx-logs:/var/log/nginx #nginx-logs
+    environment:
+      TZ: Europe/Moscow
   mysql:
-    image: mysql:8.0.12
+    image: mysql:8.0.13
+    entrypoint: ['/entrypoint.sh', '--default-authentication-plugin=mysql_native_password'] # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
     restart: always
     expose:
       - "3306" #for service mysql-proxy
@@ -102,15 +106,16 @@ services:
     volumes:
       - ../mysql-proxy-conf:/opt/mysql-proxy/conf
       - ../mysql-proxy-logs:/opt/mysql-proxy/logs
+    depends_on:
+      - mysql
     environment:
+      TZ: Europe/Moscow
       PROXY_DB_HOST:
       PROXY_DB_PORT: 3306
       REMOTE_DB_HOST: mysql
       REMOTE_DB_PORT: 3306
       LUA_SCRIPT: "/opt/mysql-proxy/conf/log.lua"
       LOG_FILE: "/opt/mysql-proxy/logs/mysql.log"
-    depends_on:
-      - mysql
 ```
 
 ### Example run command
