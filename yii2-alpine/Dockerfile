@@ -55,11 +55,12 @@ RUN apk --update add \
     apk add --no-cache --virtual .memcached-runtime-deps libmemcached-libs && \
     apk del .memcached-deps && \
 # imagick
-    apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool && \
+    printf "\n%s\n%s" "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    apk --update add imagemagick-dev@edge imagemagick@edge && \
+    apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
     export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" && \
     pecl install imagick-3.4.3 && \
     docker-php-ext-enable imagick && \
-    apk add --no-cache --virtual .imagick-runtime-deps imagemagick && \
 #    apk del .phpize-deps && \
 # apcu
 #    apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && \
