@@ -33,6 +33,7 @@ RUN apt-get update && \
     mainDependencies=" \
         git \
         zip \
+        libzip-dev \
         zlib1g-dev \
         libfreetype6-dev \
         libjpeg-dev \

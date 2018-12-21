@@ -9,6 +9,7 @@ RUN apk --update add \
         curl-dev \
         bash \
         bash-completion \
+        libzip-dev \
         freetype-dev \
         icu \
         icu-dev \
