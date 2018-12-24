@@ -50,7 +50,7 @@ RUN apk --update add \
 # memcache
     apk add --no-cache --virtual .memcached-deps zlib-dev libmemcached-dev cyrus-sasl-dev && \
     docker-php-source extract && \
-    git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
+    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
     docker-php-ext-install memcached && \
 #    docker-php-source delete && \
     apk add --no-cache --virtual .memcached-runtime-deps libmemcached-libs && \
