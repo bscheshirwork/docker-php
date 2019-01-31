@@ -8,26 +8,26 @@ MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 # libmagickwand-dev - for imagick
 # zlib1g-dev libmemcached-dev - for memcached
 
-RUN apt-get update && \
-    buildDependencies=" \
-        git \
-        zlib1g-dev \
-        libmemcached-dev \
-    " && \
-    doNotUninstall=" \
-        libmemcached11 \
-        libmemcachedutil2 \
-    " && \
-    apt-get install -y $buildDependencies --no-install-recommends && \
-    rm -r /var/lib/apt/lists/* && \
-    \
-    docker-php-source extract && \
-    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
-    docker-php-ext-install memcached && \
-    \
-    docker-php-source delete && \
-    apt-mark manual $doNotUninstall && \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
+#RUN apt-get update && \
+#    buildDependencies=" \
+#        git \
+#        zlib1g-dev \
+#        libmemcached-dev \
+#    " && \
+#    doNotUninstall=" \
+#        libmemcached11 \
+#        libmemcachedutil2 \
+#    " && \
+#    apt-get install -y $buildDependencies --no-install-recommends && \
+#    rm -r /var/lib/apt/lists/* && \
+#    \
+#    docker-php-source extract && \
+#    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
+#    docker-php-ext-install memcached && \
+#    \
+#    docker-php-source delete && \
+#    apt-mark manual $doNotUninstall && \
+#    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
 
 RUN apt-get update && \
     mainDependencies=" \

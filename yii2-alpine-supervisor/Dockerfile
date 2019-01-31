@@ -47,14 +47,14 @@ RUN apk --update add \
         g++ && \
     apk add --no-cache tzdata && \
     set -ex && \
-# memcache
-    apk add --no-cache --virtual .memcached-deps zlib-dev libmemcached-dev cyrus-sasl-dev && \
-    docker-php-source extract && \
-    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
-    docker-php-ext-install memcached && \
-#    docker-php-source delete && \
-    apk add --no-cache --virtual .memcached-runtime-deps libmemcached-libs && \
-    apk del .memcached-deps && \
+## memcache
+#    apk add --no-cache --virtual .memcached-deps zlib-dev libmemcached-dev cyrus-sasl-dev && \
+#    docker-php-source extract && \
+#    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
+#    docker-php-ext-install memcached && \
+##    docker-php-source delete && \
+#    apk add --no-cache --virtual .memcached-runtime-deps libmemcached-libs && \
+#    apk del .memcached-deps && \
 # imagick
     printf "\n%s\n%s" "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk --update add imagemagick-dev@edge imagemagick@edge && \

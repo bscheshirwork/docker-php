@@ -7,10 +7,11 @@ Supported tags and respective `Dockerfile` links
 ================================================
 
 
-## for yii2 
+## for yii2  
+>note: `php-memcached-dev/php-memcached` broken and excluded from `7.3.1`
 
 - `7.3.1-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.3.1-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))
+- `7.3.1-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))  
 >note: based on `fpm-alpine3.8`
 - `7.3.1-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
 - `7.3.1-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
