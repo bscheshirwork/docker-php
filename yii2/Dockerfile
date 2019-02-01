@@ -8,26 +8,26 @@ MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 # libmagickwand-dev - for imagick
 # zlib1g-dev libmemcached-dev - for memcached
 
-#RUN apt-get update && \
-#    buildDependencies=" \
-#        git \
-#        zlib1g-dev \
-#        libmemcached-dev \
-#    " && \
-#    doNotUninstall=" \
-#        libmemcached11 \
-#        libmemcachedutil2 \
-#    " && \
-#    apt-get install -y $buildDependencies --no-install-recommends && \
-#    rm -r /var/lib/apt/lists/* && \
-#    \
-#    docker-php-source extract && \
-#    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
-#    docker-php-ext-install memcached && \
-#    \
-#    docker-php-source delete && \
-#    apt-mark manual $doNotUninstall && \
-#    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
+RUN apt-get update && \
+    buildDependencies=" \
+        git \
+        zlib1g-dev \
+        libmemcached-dev \
+    " && \
+    doNotUninstall=" \
+        libmemcached11 \
+        libmemcachedutil2 \
+    " && \
+    apt-get install -y $buildDependencies --no-install-recommends && \
+    rm -r /var/lib/apt/lists/* && \
+    \
+    docker-php-source extract && \
+    git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ && \
+    docker-php-ext-install memcached && \
+    \
+    docker-php-source delete && \
+    apt-mark manual $doNotUninstall && \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDependencies
 
 RUN apt-get update && \
     mainDependencies=" \
@@ -60,6 +60,7 @@ RUN apt-get update && \
     rm -r /tmp/pear/* && \
     echo "expose_php = off\n\
 apc.enable_cli = 1\n\
+opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
 ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
