@@ -9,13 +9,13 @@ Supported tags and respective `Dockerfile` links
 
 ## for yii2  
 
-- `7.3.2-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
-- `7.3.2-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))  
+- `7.3.3-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
+- `7.3.3-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))  
 >note: based on `fpm-alpine3.8`
-- `7.3.2-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.3.2-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
-- `7.3.2-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
-- `7.3.2-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
+- `7.3.3-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `7.3.3-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `7.3.3-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `7.3.3-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -25,16 +25,16 @@ added `yii2 dependences` (all pass requirements.php, :information_source: ApcCac
 
 tag: `{sourceref}-4yii2`
 
-added `xdebug 2.7.0RC2`
+added `Xdebug 2.7.0`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.3.2-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:7.3.3-fpm-4yii2-xdebug`
 
 ## for zts 
 
-- `7.3.2-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.3.2-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
+- `7.3.3-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
+- `7.3.3-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
 
 
 FROM `php:zts`
@@ -43,7 +43,7 @@ added `pthreads`
 
 tag: `{sourceref}-zts`
 
-added xdebug
+added Xdebug
 
 tag: `{sourceref}-zts-xdebug`
 
@@ -54,7 +54,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.3.2-fpm-alpine-4yii2-xdebug
+    image: bscheshir/php:7.3.3-fpm-alpine-4yii2-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -66,7 +66,7 @@ services:
       XDEBUG_CONFIG: "remote_host=${DEV_REMOTE_HOST} remote_port=${DEV_REMOTE_PORT} var_display_max_data=1024 var_display_max_depth=5"
       PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
   nginx:
-    image: nginx:1.15.8-alpine
+    image: nginx:1.15.9-alpine
     restart: always
     ports:
       - "8080:8080"
@@ -81,7 +81,7 @@ services:
     environment:
       TZ: Europe/Moscow
   mysql:
-    image: mysql:8.0.14
+    image: mysql:8.0.15
     entrypoint: ['/entrypoint.sh', '--default-authentication-plugin=mysql_native_password'] # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
     restart: always
     expose:
@@ -142,7 +142,7 @@ crontab (full path needed)
 version: '2'
 services:
   php-supervisor: # for workers
-    image: bscheshir/php:7.3.2-fpm-alpine-4yii2-supervisor-xdebug
+    image: bscheshir/php:7.3.3-fpm-alpine-4yii2-supervisor-xdebug
     restart: always
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -162,7 +162,7 @@ services:
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.3.2-zts
+    image: bscheshir/php:7.3.3-zts
     restart: always
     hostname: phphost
     working_dir: /multispider
@@ -194,22 +194,21 @@ git pull
 ### Build and push. 
 
 For example `bscheshir/php:fpm-alpine-4yii2-xdebug` - this image will be used in [docker-codeception-yii2](https://github.com/bscheshirwork/docker-codeception-yii2)
+and another `alpine` images
 ```sh
-docker build -t bscheshir/php:7.3.2-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
-docker push bscheshir/php:7.3.2-fpm-alpine-4yii2-xdebug
+docker build -t bscheshir/php:7.3.3-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
+docker push bscheshir/php:7.3.3-fpm-alpine-4yii2-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-xdebug
-```
-Another `alpine` images
-```sh
-docker build -t bscheshir/php:7.3.2-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpine-4yii2 --pull -- ./yii2-alpine
-docker push bscheshir/php:7.3.2-fpm-alpine-4yii2
+
+docker build -t bscheshir/php:7.3.3-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpine-4yii2 --pull -- ./yii2-alpine
+docker push bscheshir/php:7.3.3-fpm-alpine-4yii2
 docker push bscheshir/php:fpm-alpine-4yii2
 
-docker build -t bscheshir/php:7.3.2-fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
-docker push bscheshir/php:7.3.2-fpm-alpine-4yii2-supervisor-xdebug
+docker build -t bscheshir/php:7.3.3-fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
+docker push bscheshir/php:7.3.3-fpm-alpine-4yii2-supervisor-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug
 
-docker build -t bscheshir/php:7.3.2-fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
-docker push bscheshir/php:7.3.2-fpm-alpine-4yii2-supervisor
+docker build -t bscheshir/php:7.3.3-fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
+docker push bscheshir/php:7.3.3-fpm-alpine-4yii2-supervisor
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor
 ```
