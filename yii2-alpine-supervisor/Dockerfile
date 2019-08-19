@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.9
+FROM php:fpm-alpine3.10
 # docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
