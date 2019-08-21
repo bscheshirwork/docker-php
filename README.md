@@ -215,3 +215,12 @@ docker build -t bscheshir/php:7.3.8-fpm-alpine-4yii2-supervisor -t bscheshir/php
 docker push bscheshir/php:7.3.8-fpm-alpine-4yii2-supervisor
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor
 ```
+
+# User and groups
+
+## alpine
+We can assign standard `alpine` uid of `www-data` to new `local user` for granted access to some places from `php`.  
+For example if you have `dev` group in Ubuntu:  
+```sh
+sudo useradd -u 82 -g dev -MN alpine-www-data
+``` 
