@@ -117,7 +117,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     composer global dumpautoload --optimize
 
 # xdebug
-ENV XDEBUG_VERSION 2.8.0beta1
+ENV XDEBUG_VERSION 2.8.0beta2
 RUN apk --no-cache add --virtual .build-deps \
         g++ \
         autoconf \
