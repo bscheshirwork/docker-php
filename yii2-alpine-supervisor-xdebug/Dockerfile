@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.10
+FROM php:fpm-alpine3.11
 # docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
@@ -116,7 +116,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     composer global dumpautoload --optimize
 
 # xdebug
-ENV XDEBUG_VERSION 2.9.0
+ENV XDEBUG_VERSION 2.9.1
 RUN apk --no-cache add --virtual .build-deps \
         g++ \
         autoconf \
