@@ -61,6 +61,7 @@ RUN apt-get update && \
     docker-php-source delete && \
     rm -r /tmp/pear/* && \
     echo "expose_php = off\n\
+upload_max_filesize	= 5M\n\
 apc.enable_cli = 1\n\
 opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
