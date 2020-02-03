@@ -73,7 +73,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
         "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
     && composer global dumpautoload --optimize
 
-ENV XDEBUG_VERSION 2.9.1
+ENV XDEBUG_VERSION 2.9.2
 RUN pecl install xdebug-$XDEBUG_VERSION && \
     docker-php-ext-enable xdebug && \
     rm -r /tmp/pear/* && \
