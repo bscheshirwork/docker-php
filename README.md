@@ -58,7 +58,7 @@ version: '2'
 services:
   php:
     image: bscheshir/php:7.4.3-fpm-alpine-4yii2-xdebug
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../php-code:/var/www/html #php-code
       - ~/.composer/cache:/root/.composer/cache
@@ -70,7 +70,7 @@ services:
       PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
   nginx:
     image: nginx:1.17-alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -86,7 +86,7 @@ services:
   mysql:
     image: mysql:8.0.18
     entrypoint: ['/entrypoint.sh', '--default-authentication-plugin=mysql_native_password'] # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
-    restart: always
+    restart: unless-stopped
     expose:
       - "3306" #for service mysql-proxy
     ports:
@@ -105,7 +105,7 @@ services:
       - "3306" #for service php
     ports:
       - "3308:3306" #for external connection
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../mysql-proxy-conf:/opt/mysql-proxy/conf
       - ../mysql-proxy-logs:/opt/mysql-proxy/logs
@@ -146,7 +146,7 @@ version: '2'
 services:
   php-supervisor: # for workers
     image: bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor-xdebug
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../php-code:/var/www/html #php-code
       - ../supervisor-conf:/etc/supervisor/conf.d
@@ -166,7 +166,7 @@ version: '2'
 services:
   php:
     image: bscheshir/php:7.4.3-zts
-    restart: always
+    restart: unless-stopped
     hostname: phphost
     working_dir: /multispider
     depends_on:
@@ -176,7 +176,7 @@ services:
       - ~:/home/user
   db:
     image: postgres:11-alpine
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../.db:/var/lib/postgresql/data #DB-data
     environment:
