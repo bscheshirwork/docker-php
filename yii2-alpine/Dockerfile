@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.11
+FROM php:fpm-alpine3.18
 # docker build -t bscheshir/php:fpm-alpine-4yii2 --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
@@ -33,7 +33,6 @@ RUN apk --update add \
         bcmath \
         exif \
         gd \
-        iconv \
         intl \
         mbstring \
         opcache \
@@ -59,7 +58,7 @@ RUN apk --update add \
     apk --update add imagemagick-dev@edge imagemagick@edge && \
     apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
     export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" && \
-    pecl install imagick-3.4.3 && \
+    pecl install imagick-3.5.0 && \
     docker-php-ext-enable imagick && \
 #    apk del .phpize-deps && \
 # apcu
@@ -76,11 +75,6 @@ apc.enable_cli = 1\n\
 opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-# Configure version constraints
-ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
-    COMPOSER_ALLOW_SUPERUSER=1
-
+# Convert PSR-0/4 autoloading to classmap to get a faster autoloader.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer global require --optimize-autoloader \
-        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" && \
-    composer global dumpautoload --optimize
+    composer global require --optimize-autoloader
