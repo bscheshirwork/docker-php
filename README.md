@@ -11,28 +11,24 @@ Supported tags and respective `Dockerfile` links
 
 - `7.4.3-fpm-4yii2`, `fpm-4yii2` ([yii2/Dockerfile](./yii2/Dockerfile))
 - `7.4.3-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))  
->note: based on `fpm-alpine3.11` used `OpenSSL` instead `LibreSSL` 
->note: OpenSSL 1.1.0 breaks backwards compatibility with old encrypted keys. Errors like
-> "fopen(): Unable to set local cert chain file"; "Curl error: #58 - could not load PEM client certificate, OpenSSL error error:140AB18E:SSL routines:SSL_CTX_use_certificate:ca md too weak, (no key found, wrong pass phrase, or wrong file format?)" 
-> Use sha256 encrypted keys.
-- `7.4.3-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
-- `7.4.3-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
+- `8.2.11-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
+- `8.2.11-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
 - `7.4.3-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
 - `7.4.3-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
-added `composer` (global require `hirak/prestissimo:^0.3.0`)
+added `composer` (global --optimize-autoloader)
 
 added `yii2 dependences` (all pass requirements.php, :information_source: ApcCache: Alternatively `APCu PHP` extension could be used via setting `useApcu` to `true` )
 
 tag: `{sourceref}-4yii2`
 
-added `Xdebug 2.9.2`
+added `Xdebug 3.2.2`
 
 tag: `{sourceref}-4yii2-xdebug`
 
-`docker pull bscheshir/php:7.4.3-fpm-4yii2-xdebug`
+`docker pull bscheshir/php:8.2.11-fpm-alpine-4yii2-xdebug`
 
 ## for zts 
 
@@ -57,7 +53,7 @@ tag: `{sourceref}-zts-xdebug`
 version: '2'
 services:
   php:
-    image: bscheshir/php:7.4.3-fpm-alpine-4yii2-xdebug
+    image: bscheshir/php:8.2.11-fpm-alpine-4yii2-xdebug
     restart: unless-stopped
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -66,8 +62,10 @@ services:
       - db
     environment:
       TZ: Europe/Moscow
-      XDEBUG_CONFIG: "remote_host=${DEV_REMOTE_HOST} remote_port=${DEV_REMOTE_PORT} var_display_max_data=1024 var_display_max_depth=5"
+      XDEBUG_CONFIG: "client_host=${DEV_REMOTE_HOST} client_port=${DEV_REMOTE_PORT}"
       PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   nginx:
     image: nginx:1.17-alpine
     restart: unless-stopped
