@@ -81,15 +81,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # xdebug
 ENV XDEBUG_VERSION 3.2.2
-ARG XDEBUG_PORT=9003
 ENV XDEBUG_MODE=debug
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers && \
     pecl install xdebug-$XDEBUG_VERSION && \
     docker-php-ext-enable xdebug && \
     apk del -f .build-deps && \
     rm -r /tmp/pear/* && \
-    echo -e "xdebug.client_port=$XDEBUG_PORT\n\
-xdebug.discover_client_host=false\n\
+    echo -e "xdebug.discover_client_host=false\n\
 xdebug.start_with_request=trigger\n\
 xdebug.trigger_value=PHPSTORM\n\
 xdebug.client_host=host.docker.internal\n\
