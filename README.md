@@ -13,8 +13,8 @@ Supported tags and respective `Dockerfile` links
 - `8.2.11-fpm-4yii2-xdebug`, `fpm-4yii2-xdebug` ([yii2-xdebug/Dockerfile](./yii2-xdebug/Dockerfile))  
 - `8.2.11-fpm-alpine-4yii2`, `fpm-alpine-4yii2` ([yii2-alpine/Dockerfile](./yii2-alpine/Dockerfile))
 - `8.2.11-fpm-alpine-4yii2-xdebug`, `fpm-alpine-4yii2-xdebug` ([yii2-alpine-xdebug/Dockerfile](./yii2-alpine-xdebug/Dockerfile))
-- `7.4.3-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
-- `7.4.3-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
+- `8.2.11-fpm-alpine-4yii2-supervisor`, `fpm-alpine-4yii2-supervisor` ([yii2-alpine-supervisor/Dockerfile](./yii2-alpine-supervisor/Dockerfile))
+- `8.2.11-fpm-alpine-4yii2-supervisor-xdebug`, `fpm-alpine-4yii2-supervisor-xdebug` ([yii2-alpine-supervisor-xdebug/Dockerfile](./yii2-alpine-supervisor-xdebug/Dockerfile))
 
 FROM `php:fpm`
 
@@ -143,7 +143,7 @@ crontab (full path needed)
 version: '2'
 services:
   php-supervisor: # for workers
-    image: bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor-xdebug
+    image: bscheshir/php:8.2.11-fpm-alpine-4yii2-supervisor-xdebug
     restart: unless-stopped
     volumes:
       - ../php-code:/var/www/html #php-code
@@ -153,8 +153,10 @@ services:
       - db
     environment:
       TZ: Europe/Moscow
-      XDEBUG_CONFIG: "remote_host=dev-Aspire-V3-772 remote_port=9003 var_display_max_data=1024 var_display_max_depth=5"
+      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_port=9003 var_display_max_data=1024 var_display_max_depth=5"
       PHP_IDE_CONFIG: "serverName=yii2advanced"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 ```
 
 
@@ -197,20 +199,20 @@ git pull
 For example `bscheshir/php:fpm-alpine-4yii2-xdebug` - this image will be used in [docker-codeception-yii2](https://github.com/bscheshirwork/docker-codeception-yii2)
 and another `alpine` images
 ```sh
-docker build -t bscheshir/php:7.4.3-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
-docker push bscheshir/php:7.4.3-fpm-alpine-4yii2-xdebug
+docker build -t bscheshir/php:8.2.11-fpm-alpine-4yii2-xdebug -t bscheshir/php:fpm-alpine-4yii2-xdebug --pull -- ./yii2-alpine-xdebug
+docker push bscheshir/php:8.2.11-fpm-alpine-4yii2-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-xdebug
 
-docker build -t bscheshir/php:7.4.3-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpine-4yii2 --pull -- ./yii2-alpine
-docker push bscheshir/php:7.4.3-fpm-alpine-4yii2
+docker build -t bscheshir/php:8.2.11-fpm-alpine-4yii2 -t bscheshir/php:fpm-alpine-4yii2 --pull -- ./yii2-alpine
+docker push bscheshir/php:8.2.11-fpm-alpine-4yii2
 docker push bscheshir/php:fpm-alpine-4yii2
 
-docker build -t bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
-docker push bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor-xdebug
+docker build -t bscheshir/php:8.2.11-fpm-alpine-4yii2-supervisor-xdebug -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- ./yii2-alpine-supervisor-xdebug
+docker push bscheshir/php:8.2.11-fpm-alpine-4yii2-supervisor-xdebug
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug
 
-docker build -t bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
-docker push bscheshir/php:7.4.3-fpm-alpine-4yii2-supervisor
+docker build -t bscheshir/php:8.2.11-fpm-alpine-4yii2-supervisor -t bscheshir/php:fpm-alpine-4yii2-supervisor --pull -- ./yii2-alpine-supervisor
+docker push bscheshir/php:8.2.11-fpm-alpine-4yii2-supervisor
 docker push bscheshir/php:fpm-alpine-4yii2-supervisor
 ```
 

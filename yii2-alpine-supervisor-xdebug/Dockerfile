@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.11
+FROM php:fpm-alpine3.18
 # docker build -t bscheshir/php:fpm-alpine-4yii2-supervisor-xdebug --pull -- .
 MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 
@@ -33,7 +33,6 @@ RUN apk --update add \
         bcmath \
         exif \
         gd \
-        iconv \
         intl \
         mbstring \
         opcache \
@@ -59,7 +58,7 @@ RUN apk --update add \
     apk --update add imagemagick-dev@edge imagemagick@edge && \
     apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
     export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" && \
-    pecl install imagick-3.4.3 && \
+    pecl install imagick-3.5.0 && \
     docker-php-ext-enable imagick && \
 #    apk del .phpize-deps && \
 # apcu
@@ -75,6 +74,30 @@ upload_max_filesize	= 5M\n\
 apc.enable_cli = 1\n\
 opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
+
+# Convert PSR-0/4 autoloading to classmap to get a faster autoloader.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer global require --optimize-autoloader
+
+# xdebug
+ENV XDEBUG_VERSION 3.2.2
+ENV XDEBUG_MODE=debug
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers && \
+    pecl install xdebug-$XDEBUG_VERSION && \
+    docker-php-ext-enable xdebug && \
+    apk del -f .build-deps && \
+    rm -r /tmp/pear/* && \
+    echo -e "xdebug.discover_client_host=false\n\
+xdebug.start_with_request=trigger\n\
+xdebug.trigger_value=PHPSTORM\n\
+xdebug.client_host=host.docker.internal\n\
+xdebug.var_display_max_data=1024\n\
+xdebug.var_display_max_depth=5\
+" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    echo -e "#!/usr/bin/env sh\n\
+/usr/bin/env php -dxdebug.start_with_request=yes \"$@\"\
+" >> /usr/bin/dphp && \
+    chmod +x /usr/bin/dphp
 
 # supervisor
 RUN apk add --no-cache \
@@ -106,26 +129,3 @@ supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 files = /etc/supervisor/conf.d/*.conf" >> /etc/supervisord.conf
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
-
-# Configure version constraints
-ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
-    COMPOSER_ALLOW_SUPERUSER=1
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer global require --optimize-autoloader \
-        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" && \
-    composer global dumpautoload --optimize
-
-# xdebug
-ENV XDEBUG_VERSION 2.9.2
-RUN apk --no-cache add --virtual .build-deps \
-        g++ \
-        autoconf \
-        make && \
-    pecl install xdebug-$XDEBUG_VERSION && \
-    docker-php-ext-enable xdebug && \
-    apk del .build-deps && \
-    rm -r /tmp/pear/* && \
-    echo -e "xdebug.remote_port = 9001\n\
-xdebug.idekey = \"PHPSTORM\"\n\
-xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
