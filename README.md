@@ -30,22 +30,6 @@ tag: `{sourceref}-4yii2-xdebug`
 
 `docker pull bscheshir/php:8.2.11-fpm-alpine-4yii2-xdebug`
 
-## for zts 
-
-- `7.4.3-zts`, `zts` ([zts/Dockerfile](./zts/Dockerfile))
-- `7.4.3-zts-xdebug`, `zts-xdebug` ([zts-xdebug/Dockerfile](./zts-xdebug/Dockerfile))
-
-
-FROM `php:zts`
-
-added `pthreads`
-
-tag: `{sourceref}-zts`
-
-added Xdebug
-
-tag: `{sourceref}-zts-xdebug`
-
 
 ## Usage
 ### Example for yii2 [docker-compose.yml](https://github.com/bscheshirwork/docker-yii2-app-advanced/blob/master/docker-run/docker-compose.yml)
@@ -157,32 +141,6 @@ services:
       PHP_IDE_CONFIG: "serverName=yii2advanced"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-```
-
-
-### Example zts [docker-compose.yml](https://github.com/bscheshirwork/multispider/blob/master/zts/docker-compose.yml)
-```
-version: '2'
-services:
-  php:
-    image: bscheshir/php:7.4.3-zts
-    restart: unless-stopped
-    hostname: phphost
-    working_dir: /multispider
-    depends_on:
-      - db
-    volumes:
-      - ..:/multispider #php-code
-      - ~:/home/user
-  db:
-    image: postgres:11-alpine
-    restart: unless-stopped
-    volumes:
-      - ../.db:/var/lib/postgresql/data #DB-data
-    environment:
-      POSTGRES_PASSWORD: multispider
-      POSTGRES_DB: multispider
-      POSTGRES_USER: multispider
 ```
 
 ## How to build manually 
