@@ -6,12 +6,13 @@ MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 # zlib1g-dev libicu-dev - for intl
 # libpq-dev - for pdo_pgsql
 # libmagickwand-dev - for imagick
-# zlib1g-dev libmemcached-dev - for memcached
+# zlib1g-dev libssl-dev libmemcached-dev - for memcached
 
 RUN apt-get update && \
     buildDependencies=" \
         git \
         zlib1g-dev \
+        libssl-dev \
         libmemcached-dev \
     " && \
     doNotUninstall=" \
@@ -66,17 +67,23 @@ apc.enable_cli = 1\n\
 opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
-    COMPOSER_ALLOW_SUPERUSER=1
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer global require --optimize-autoloader \
-        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
-    && composer global dumpautoload --optimize
+# Convert PSR-0/4 autoloading to classmap to get a faster autoloader.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer global require --optimize-autoloader
 
-ENV XDEBUG_VERSION 2.9.2
+ENV XDEBUG_VERSION 3.2.2
+ENV XDEBUG_MODE=debug
 RUN pecl install xdebug-$XDEBUG_VERSION && \
     docker-php-ext-enable xdebug && \
     rm -r /tmp/pear/* && \
-    echo -e "xdebug.remote_port = 9001\n\
-xdebug.idekey = \"PHPSTORM\"\n\
-xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    echo -e "xdebug.discover_client_host=false\n\
+xdebug.start_with_request=trigger\n\
+xdebug.trigger_value=PHPSTORM\n\
+xdebug.client_host=host.docker.internal\n\
+xdebug.var_display_max_data=1024\n\
+xdebug.var_display_max_depth=5\
+" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    echo -e "#!/usr/bin/env sh\n\
+/usr/bin/env php -dxdebug.start_with_request=yes \"$@\"\
+" >> /usr/bin/dphp && \
+    chmod +x /usr/bin/dphp

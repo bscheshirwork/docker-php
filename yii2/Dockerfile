@@ -6,12 +6,13 @@ MAINTAINER BSCheshir <bscheshir.work@gmail.com>
 # zlib1g-dev libicu-dev - for intl
 # libpq-dev - for pdo_pgsql
 # libmagickwand-dev - for imagick
-# zlib1g-dev libmemcached-dev - for memcached
+# zlib1g-dev libssl-dev libmemcached-dev - for memcached
 
 RUN apt-get update && \
     buildDependencies=" \
         git \
         zlib1g-dev \
+        libssl-dev \
         libmemcached-dev \
     " && \
     doNotUninstall=" \
@@ -66,9 +67,6 @@ apc.enable_cli = 1\n\
 opcache.optimization_level=0x7FFFBBFF\n\
 cgi.fix_pathinfo = 0" >> /usr/local/etc/php/php.ini
 
-ENV VERSION_PRESTISSIMO_PLUGIN=^0.3.0 \
-    COMPOSER_ALLOW_SUPERUSER=1
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer global require --optimize-autoloader \
-        "hirak/prestissimo:${VERSION_PRESTISSIMO_PLUGIN}" \
-    && composer global dumpautoload --optimize
+# Convert PSR-0/4 autoloading to classmap to get a faster autoloader.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer global require --optimize-autoloader
